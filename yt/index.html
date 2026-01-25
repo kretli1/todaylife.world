@@ -11,6 +11,18 @@
     <meta property="og:image" content="https://img.imageboss.me/atm/cdn/format:auto/u/umsGbYu2QNOfeAn5fEqSwCDI4VE3/l/rBhIAv7621085.png">
     <title>Today Life's</title>
     
+    <!-- ========================================= -->
+    <!-- 🎯 CONFIGURAÇÃO DOS CTAs - EDITE AQUI    -->
+    <!-- ========================================= -->
+    <script>
+        const CTA_CONFIG = {
+            showAfter: '23:34',  // Tempo no formato MM:SS (minutos:segundos)
+            link: 'https://pay.hotmart.com/123456789?checkoutMode=10',
+            text: 'COMPRAR AGORA!'
+        };
+    </script>
+    <!-- ========================================= -->
+    
     <!-- Preconnect críticos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,8 +85,8 @@
             
             <!-- CTA 1 -->
             <div id="cta1" class="cta d-none">
-                <a href="https://pay.hotmart.com/123456789?checkoutMode=10" class="btn">
-                    COMPRAR AGORA!
+                <a href="#" class="btn cta-button">
+                    <!-- Texto será inserido via JS -->
                 </a>
             </div>
         </div>
@@ -319,8 +331,8 @@
 
                 <!-- CTA 2 -->
                 <div id="cta2" class="cta d-none">
-                    <a href="https://pay.hotmart.com/123456789?checkoutMode=10" class="btn">
-                        COMPRAR AGORA!
+                    <a href="#" class="btn cta-button">
+                        <!-- Texto será inserido via JS -->
                     </a>
                 </div>
             </div>
@@ -337,8 +349,26 @@
 
     <!-- JS minificado inline -->
     <script>
+        // Função para converter MM:SS em milissegundos
+        function timeToMs(timeStr) {
+            const [minutes, seconds] = timeStr.split(':').map(Number);
+            return (minutes * 60 + seconds) * 1000;
+        }
+
+        // Inicializar CTAs com configurações
+        function initCTAs() {
+            const buttons = document.querySelectorAll('.cta-button');
+            buttons.forEach(btn => {
+                btn.href = CTA_CONFIG.link;
+                btn.textContent = CTA_CONFIG.text;
+            });
+        }
+
+        // Chamar no carregamento
+        initCTAs();
+
         // Geolocation
-        fetch('https://ipinfo.io/json?token=YOUR_TOKEN')
+        fetch('https://ipinfo.io/json')
             .then(r=>r.json())
             .then(d=>document.getElementById('address').textContent=d.city)
             .catch(()=>document.getElementById('address').textContent='Austin');
@@ -349,11 +379,11 @@
             event.target.style.display='none';
         }
 
-        // Show CTAs after delay
+        // Show CTAs after configured delay
         setTimeout(()=>{
             document.getElementById('cta1').classList.remove('d-none');
             document.getElementById('cta2').classList.remove('d-none');
-        },16000000);
+        }, timeToMs(CTA_CONFIG.showAfter));
 
         // Lazy load images on scroll
         if('IntersectionObserver' in window){
