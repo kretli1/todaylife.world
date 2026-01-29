@@ -410,5 +410,113 @@
             document.querySelectorAll('img[loading="lazy"]').forEach(img=>imgObserver.observe(img));
         }
     </script>
+
+    <!-- Cole este bloco no FINAL do <body> da VSL -->
+<script>
+(function () {
+  // ========= CONFIG =========
+  var TRACKING_DOMAIN = "trk.bigbluemontain.online"; // seu domínio 1st-party do RedTrack
+  var HOTMART_HOST = "pay.hotmart.com";              // host padrão de checkout
+ 
+  // ========= HELPERS =========
+  function getCookie(name) {
+    var n = name + "=";
+    var ca = decodeURIComponent(document.cookie).split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i].trim();
+      if (c.indexOf(n) === 0) return c.substring(n.length);
+    }
+    return "";
+  }
+  function getClickId() {
+    try { if (window.rtkClickID) return window.rtkClickID; } catch(e){}
+    var fromCookie = getCookie("rtkclickid-store");
+    if (fromCookie) return fromCookie;
+    var p = new URLSearchParams(location.search);
+    return p.get("clickid") || p.get("src") || "";
+  }
+  function addSrcToHotmart(url, clickid) {
+    try {
+      var u = new URL(url, location.href);
+      if (u.hostname.indexOf(HOTMART_HOST) !== -1) {
+        if (clickid) u.searchParams.set("src", clickid);
+        return u.toString();
+      }
+    } catch(e){}
+    return url;
+  }
+  function fireInitiateCheckout(clickid) {
+    if (!clickid) return Promise.resolve();
+    var url = new URL("https://" + TRACKING_DOMAIN + "/postback");
+    url.searchParams.set("clickid", clickid);
+    url.searchParams.set("type", "InitiateCheckout");
+    // Preferência: sendBeacon para não perder o hit
+    if (navigator.sendBeacon) {
+      var blob = new Blob([], {type: "application/x-www-form-urlencoded"});
+      navigator.sendBeacon(url.toString(), blob);
+      return Promise.resolve();
+    } else {
+      return fetch(url.toString(), { method: "GET", keepalive: true }).catch(function(){});
+    }
+  }
+ 
+  // 1) Pré-ajusta todos os links já existentes com src=<clickid>
+  function patchAllLinks() {
+    var cid = getClickId();
+    if (!cid) return;
+    document.querySelectorAll('a[href]').forEach(function(a){
+      if (!a.href) return;
+      if (a.href.indexOf(HOTMART_HOST) !== -1) {
+        a.href = addSrcToHotmart(a.href, cid);
+      }
+    });
+  }
+ 
+  // 2) Captura o clique em QUALQUER link para Hotmart, marca InitiateCheckout e segue
+  function delegateClicks() {
+    document.addEventListener("click", function(ev) {
+      var el = ev.target.closest("a[href]");
+      if (!el || !el.href) return;
+      if (el.href.indexOf(HOTMART_HOST) === -1) return;
+ 
+      ev.preventDefault(); // segura o clique para marcar o evento
+      var cid = getClickId();
+      var targetUrl = addSrcToHotmart(el.href, cid);
+ 
+      Promise.resolve(fireInitiateCheckout(cid)).then(function(){
+        window.location.href = targetUrl;
+      }).catch(function(){
+        window.location.href = targetUrl;
+      });
+    }, true);
+  }
+ 
+  // 3) Tenta novamente após o RTK setar o clickid (caso carregue assíncrono)
+  function waitForRTK() {
+    var tries = 0, max = 20, intv = setInterval(function(){
+      tries++;
+      if (window.rtkClickID || getCookie("rtkclickid-store")) {
+        clearInterval(intv);
+        patchAllLinks();
+      }
+      if (tries >= max) clearInterval(intv);
+    }, 300);
+  }
+ 
+  // Init
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function(){
+      patchAllLinks();
+      delegateClicks();
+      waitForRTK();
+    });
+  } else {
+    patchAllLinks();
+    delegateClicks();
+    waitForRTK();
+  }
+})();
+</script>
+    
 </body>
 </html>
