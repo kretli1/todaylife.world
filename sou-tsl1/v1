@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpyOddsUp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0c10;
+  --bg-card: #12151c;
+  --bg-card-alt: #181c26;
+  --text: #d8dbe3;
+  --text-muted: #8a8f9e;
+  --heading: #f0f1f4;
+  --red: #c0392b;
+  --red-dark: #962d23;
+  --green: #27ae60;
+  --gold: #c9a84c;
+  --border: #1e2230;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'DM Sans', Helvetica, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── RED BANNER ── */
+.top-banner {
+  background: var(--red);
+  color: #fff;
+  text-align: center;
+  padding: 18px 20px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(192, 57, 43, 0.4);
+}
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── SECTIONS ── */
+section {
+  padding: 60px 0;
+  border-bottom: 1px solid var(--border);
+}
+section:last-of-type { border-bottom: none; }
+
+/* ── TYPOGRAPHY ── */
+h1, h2, h3 {
+  font-family: var(--serif);
+  color: var(--heading);
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 900;
+  margin-bottom: 32px;
+}
+
+h2 {
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+strong {
+  color: var(--heading);
+  font-weight: 600;
+}
+
+/* ── SEPARATOR ── */
+.sep {
+  width: 48px;
+  height: 2px;
+  background: var(--red);
+  margin: 32px 0;
+}
+
+/* ── CTA BUTTON ── */
+.cta-wrap {
+  text-align: center;
+  margin: 40px 0;
+}
+.cta-btn {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 18px 48px;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 16px rgba(192, 57, 43, 0.35);
+}
+.cta-btn:hover {
+  background: var(--red-dark);
+  transform: translateY(-1px);
+}
+.cta-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+/* ── STEP / NUMBERED ── */
+.step {
+  background: var(--bg-card);
+  border-left: 3px solid var(--red);
+  padding: 24px 28px;
+  margin: 24px 0;
+  border-radius: 0 6px 6px 0;
+}
+.step-number {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+/* ── STRATEGY CARD ── */
+.strategy-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+  margin: 24px 0;
+}
+.strategy-card h3 {
+  color: var(--gold);
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+/* ── TABLE (PRICE MOVEMENT) ── */
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0;
+  font-size: 15px;
+}
+.price-table th {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.price-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.price-table tr.highlight-row td {
+  background: rgba(192, 57, 43, 0.1);
+  color: var(--heading);
+  font-weight: 600;
+}
+.price-table .tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.tag-red { background: rgba(231, 76, 60, 0.15); color: #e74c3c; }
+.tag-green { background: rgba(39, 174, 96, 0.15); color: #27ae60; }
+
+/* ── FEATURE LIST ── */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+.feature-list li {
+  position: relative;
+  padding: 8px 0 8px 28px;
+  line-height: 1.6;
+}
+.feature-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+}
+
+.feature-list-x li::before {
+  background: #e74c3c;
+}
+
+/* ── PLAN CARDS ── */
+.plan-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px 32px;
+  margin: 28px 0;
+  position: relative;
+}
+.plan-card.featured {
+  border-color: var(--gold);
+  box-shadow: 0 0 30px rgba(201, 168, 76, 0.08);
+}
+.plan-badge {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: var(--gold);
+  color: #0a0c10;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 14px;
+  border-radius: 3px;
+}
+.plan-name {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.plan-price {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 40px;
+  color: var(--heading);
+  margin-bottom: 4px;
+}
+.plan-price span {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.plan-tagline {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+/* ── OPTION BOXES ── */
+.option-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+  margin: 20px 0;
+}
+.option-box.bad {
+  border-color: rgba(231, 76, 60, 0.3);
+}
+.option-box.good {
+  border-color: rgba(39, 174, 96, 0.3);
+}
+.option-label {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.option-box.bad .option-label { color: #e74c3c; }
+.option-box.good .option-label { color: #27ae60; }
+
+/* ── FAQ ── */
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-q {
+  font-family: var(--serif);
+  font-weight: 700;
+  color: var(--heading);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.faq-a {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+footer p { margin-bottom: 8px; }
+
+/* ── BLOCKQUOTE ── */
+.callout {
+  background: var(--bg-card-alt);
+  border-left: 3px solid var(--gold);
+  padding: 20px 24px;
+  margin: 28px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+/* ── TABLE WRAPPER (mobile scroll) ── */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 28px -16px;
+  padding: 0 16px;
+}
+.table-scroll .price-table {
+  min-width: 480px;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════
+   MOBILE-FIRST RESPONSIVE
+   ═══════════════════════════════════════ */
+
+@media (max-width: 600px) {
+  body {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .top-banner {
+    font-size: 12px;
+    padding: 14px 16px;
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  section {
+    padding: 40px 0;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+
+  .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 18px 20px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cta-wrap {
+    margin: 32px 0;
+  }
+
+  .step {
+    padding: 18px 16px;
+    margin: 18px 0;
+  }
+
+  .strategy-card {
+    padding: 20px 16px;
+    margin: 18px 0;
+  }
+  .strategy-card h3 {
+    font-size: 18px;
+  }
+
+  .plan-card {
+    padding: 28px 20px;
+    margin: 24px 0;
+  }
+  .plan-price {
+    font-size: 34px;
+  }
+
+  .option-box {
+    padding: 20px 16px;
+  }
+
+  .callout {
+    padding: 16px 18px;
+    font-size: 15px;
+    margin: 20px 0;
+  }
+
+  .faq-q {
+    font-size: 17px;
+  }
+  .faq-a {
+    font-size: 15px;
+  }
+
+  .price-table {
+    font-size: 13px;
+  }
+  .price-table th {
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+  .price-table td {
+    padding: 10px;
+  }
+  .price-table .tag {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .feature-list li {
+    font-size: 15px;
+    padding: 6px 0 6px 24px;
+  }
+  .feature-list li::before {
+    top: 14px;
+    width: 7px;
+    height: 7px;
+  }
+
+  footer {
+    padding: 32px 16px;
+    font-size: 12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ RED BANNER ═══════════ -->
+<div class="top-banner">
+  WARNING: IF YOU BET ON SPORTS (OR HAVE EVER THOUGHT ABOUT IT)
+</div>
+
+<div class="container">
+
+<!-- ═══════════ HERO ═══════════ -->
+<section>
+  <h1>While you're betting $50, someone is moving $50,000 on the same game as you...</h1>
+
+  <div class="sep"></div>
+
+  <p>Let me explain something nobody tells you...</p>
+
+  <p>You're on your phone, picking a game, putting $50 on the team you think is gonna win... Cool... Normal...</p>
+
+  <p>But the same minute you do that, there's a guy in an office in Malta, a tiny country in the middle of the Mediterranean that's the paradise of sports betting, placing $50,000 on the same game... Except he got in 6 hours before you... And by the time the ball rolls, the price he paid is already worth 40% more than anyone can get now...</p>
+
+  <p>He doesn't know more about football than you... He doesn't have secret information about the game...</p>
+
+  <p><strong>He just saw something you didn't: where the money was going before the game started...</strong></p>
+
+  <p>That's what SpyOddsUp does... It monitors the betting market 24 hours a day and alerts you when something unusual is happening, before the game...</p>
+
+  <p>Let me give you a real example:</p>
+
+  <p>Yesterday afternoon, while you were at work, SpyOddsUp sent an alert: "something weird is happening with the price of a Premier League game"... The price was high, meaning it was a great time to get in... You got in within 30 seconds from your phone... Today, at game time, that price had already dropped... Before the ball even rolled, you already had a +32% edge over anyone who got in later... The game hadn't even started and you were already ahead...</p>
+
+  <p><strong>While your friends are looking for tips on Google, "VIP Groups" and Telegram, you're already positioned...</strong></p>
+
+  <p>Today, 2,847 people already use SpyOddsUp... In the last 90 days, the system pulled an average of $200,000 from the bookmakers... Not a projection... Real money coming out of their registers...</p>
+
+  <!-- VIDEO 1 -->
+  <div style="margin: 32px 0;">
+    <vturb-smartplayer id="vid-698657930a5bc46a1681fba4" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
+    <script type="text/javascript">
+      var s=document.createElement("script"); s.src="https://scripts.converteai.net/acf4b3b2-1c81-4391-993a-c224c4c62c25/players/698657930a5bc46a1681fba4/v4/player.js", s.async=!0,document.head.appendChild(s);
+    </script>
+  </div>
+
+  <div class="cta-wrap">
+    <a href="https://pay.hotmart.com/C104293322R?checkoutMode=10" class="cta-btn">I WANT MY ACCESS NOW</a>
+    <p class="cta-sub">Access limited by server technical capacity...</p>
+  </div>
+</section>
+
+<!-- ═══════════ SECTION: MAKE MONEY ═══════════ -->
+<section>
+  <h2>You Want to Make Money Betting... Period...</h2>
+
+  <p>Let's cut the crap...</p>
+
+  <p>You're not here to become a mathematician... You don't want to learn formulas... You don't want to take a 6-week course on "bankroll management"...</p>
+
+  <p>You want one simple thing: open the betting app, see that you made money, and send the screenshot to the group chat...</p>
+
+  <p>So let me show you how this works in practice...</p>
+
+  <p>When you bet on something, you're buying a "price"... It works like this: if the price of a bet is at 2.00, that means if you put $100 on it and win, you get $200 back... Simple...</p>
+
+  <p>Now imagine you bought that price at 2.00, and before the game starts, it drops to 1.50... That means you bought cheap... Got it at a discount... Anyone getting in now has to pay more for the exact same thing...</p>
+
+  <p><strong>Whoever buys cheap consistently profits in the long run... That's the entire logic...</strong></p>
+
+  <p>SpyOddsUp tells you when the price is at the sweet spot, before the game... You get in, and let the math do the work...</p>
+
+  <p>Last week, for example, you could've gotten in on 3 alerts... Two hit (green)... One missed (red)... Weekly result: +$1,200 net... Not a salary, but enough to pay for the gym, fill up the tank, and go out for dinner on Saturday without checking the price on the menu... All because you positioned yourself hours before everyone else...</p>
+
+  <p>And in the long run? That's just the tip of the iceberg... Over 200 entries in 6 months, with an average profit of $100 per entry... Do the math on what that adds up to at the end...</p>
+
+  <p>Now, crunch the numbers: even if only 60% of those trades hit, and being honest, 60% is a "worst-case scenario", the accumulated profit would've easily paid for your annual subscription... Whatever's left is pure profit straight to your pocket...</p>
+
+  <p>The reality, though, is much more aggressive... While the market stumbles, SpyOddsUp's numbers deliver what seems impossible to outsiders: <strong>we easily reach 92% accuracy...</strong> You're not just getting into the game; you're getting in to win with the statistics on your side...</p>
+
+  <p>SpyOddsUp wasn't built for people who want to study theory... It was built for people who want results in their account...</p>
+</section>
+
+<!-- ═══════════ SECTION: INSTAGRAM ═══════════ -->
+<section>
+  <h2>What They Don't Show You on Instagram...</h2>
+
+  <p>You've seen those stories:</p>
+  <p>Drake in a VIP box at a game, celebrating that he won millions betting...<br>
+  McGregor on a yacht, posting betting screenshots...<br>
+  Bilzerian surrounded by people, living an absurd lifestyle...<br>
+  Tate with exotic cars, talking about "financial freedom"...</p>
+
+  <p><strong>They post the party... They don't post the office...</strong></p>
+
+  <p>You see Drake on his story celebrating a $500,000 bet... What he doesn't show is what happened the day before: someone in a quiet office looked at a screen, saw the betting market moving in a strange way, and said "get in now, before tomorrow's game"...</p>
+
+  <p><strong>The party is the consequence... The office is where the money is made...</strong></p>
+
+  <p>While the Instagram guy posts stories on a yacht, what nobody sees is what he did the afternoon before: opened the software, saw 3 alerts for unusual movement on the next day's games, got in on 2, and by the time the games started, he already had an edge on every position...</p>
+
+  <p>The yacht is the consequence of 20 minutes of decisions the day before... <strong>Now you have access to those same 20 minutes...</strong></p>
+
+  <p>At their level, there's no "hoping to win"... There's knowing where the money is going...</p>
+
+  <p>And the tool that shows you that is called: <strong>SpyOddsUp</strong>...</p>
+</section>
+
+<!-- ═══════════ SECTION: THE GAME YOU DON'T SEE ═══════════ -->
+<section>
+  <h2>The Game You Don't See (And the System That Makes Money Off Your Ignorance)...</h2>
+
+  <p>I'm going to tell you something nobody talks about:</p>
+
+  <p><strong>There's a machine running 24 hours a day against you...</strong></p>
+
+  <p>The bookmakers, Bet365, Betano, Sportingbet, all of them, make money when you bet on impulse, with no information, at the wrong time...</p>
+
+  <p>The big market players, called "syndicates", make money when you panic and exit a bet at the wrong moment...</p>
+
+  <p>The "experts" on Telegram and Twitter make money selling you picks, picks they don't even follow themselves...</p>
+
+  <p><strong>Everyone wins... Except you...</strong></p>
+
+  <p>And nobody tells you because everyone profits from your lack of information...</p>
+
+  <div class="sep"></div>
+
+  <p>Now think about this situation:</p>
+
+  <p>You open the betting app to check out tomorrow's games... You see a strong team priced at 1.85 and think "I'll get in tomorrow"... The next day, you open the app and the price is at 1.45... It dropped overnight... And you don't even understand how...</p>
+
+  <p><em>"How did the price drop that much?"</em><br>
+  <em>"Did whoever got in yesterday afternoon know something?"</em><br>
+  <em>"I was looking at the SAME game and missed the timing?"</em></p>
+
+  <p>That's what hurts... You saw the price... Thought about getting in... But waited... And while you were sleeping, the market moved... The guy who got in the afternoon before paid 2.05, a much better price... You woke up and saw 1.55... Same game... Same team... Completely different price...</p>
+
+  <p>It's not magic... It's not coincidence... It's not "secret information"...</p>
+
+  <p><strong>It's money movement...</strong></p>
+
+  <p>Here's how it works: the betting market moves billions of dollars a day... Billions... And when someone puts millions of dollars in one direction, the price moves... Like a scale: the more weight on one side, the more it tilts...</p>
+
+  <p>And in this ocean of money, there are "big fish":</p>
+
+  <p><strong>Professional syndicates</strong> &mdash; organized groups that operate with teams, software, and serious capital... They don't "bet"... They manipulate prices...</p>
+
+  <p><strong>Big bettors</strong> &mdash; people with enough money to move the market when they enter...</p>
+
+  <p><strong>Institutional movements</strong> &mdash; heavy money that looks random but follows a pattern...</p>
+
+  <p>These people don't sit around trying to "guess" who's going to win the game... They operate the price, hours and days before the game starts...</p>
+
+  <p><strong>Those who position first buy cheap... Those who wait for the game to start pay full price...</strong></p>
+
+  <p>SpyOddsUp exists to flip this game... For the first time, the information is on your side...</p>
+</section>
+
+<!-- ═══════════ SECTION: HOW THEY MANIPULATE ═══════════ -->
+<section>
+  <h2>How the Big Players Manipulate Betting Prices...</h2>
+
+  <p>Now I'm going to explain exactly how the guys who move millions make money from betting... No complicated jargon... Like I'm explaining it to you at a bar...</p>
+
+  <p>In the next 3 minutes, you're going to understand a strategy that 99% of bettors will never figure out... Not because it's secret, but because nobody explains it this way...</p>
+
+  <p>There are organized groups, called syndicates, that operate worldwide... The most well-known is called Starlizard... They don't bet like you and me... They don't pick a team and root for it...</p>
+
+  <p><strong>They manipulate betting prices to make money...</strong></p>
+
+  <p>And the strategy is simpler than it seems... Check it out:</p>
+
+  <!-- STEP 1 -->
+  <div class="step">
+    <div class="step-number">1</div>
+    <h3>They pick a game where the favorite has a low price...</h3>
+    <p>They look for games where the favorite, the team everyone expects to win, is priced between 1.30 and 1.50...</p>
+    <p>Low price means the market considers that team almost a lock to win... So if you bet $100, you only get back $130-$150... Low profit, low risk...</p>
+    <p>That's the starting point...</p>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <div class="step-number">2</div>
+    <h3>They push the price up on purpose (this is called a "Head Fake")...</h3>
+    <p>This is where it gets brilliant, and cruel...</p>
+    <p>They start moving money in a way that makes the favorite's price go up... From 1.30-1.50 to around 2.00...</p>
+    <p>When the price jumps like that, the entire market gets scared... Everyone thinks: "wait, the price went up? There must be some information I don't have... Is the star player injured? Is there going to be a surprise?"</p>
+    <p>The favorite's odds go from 1.35 to 1.90 and the average bettor panics... Starts scouring Twitter, Googling "player X injured?", jumps into groups to ask if anyone knows anything... Nobody knows... But everyone's scared... And that's exactly what the syndicate wanted: scare everyone to create the price they want to buy at...</p>
+    <p>The entire system is working against you at this moment... The bookmaker adjusts the price... The Telegram guru says "be careful with this game"... Panic spreads... And whoever created the panic is sitting there, waiting, finger on the trigger...</p>
+    <p><strong>It's a trap... The syndicate doesn't have secret information about the game... They have enough money to move the price wherever they want...</strong></p>
+    <p>You know what Drake, McGregor, and the guys you see celebrating on Instagram do? They don't fall for the trap... They ride the trap... Because they see what's happening and position themselves before everyone else...</p>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+    <div class="step-number">3</div>
+    <h3>They go in heavy at the inflated price...</h3>
+    <p>Now the price is at 2.00, way higher than it should be... And this is exactly where the syndicate goes all in... Millions of dollars... All of this hours before the game starts...</p>
+    <p>Think of it this way: imagine you can buy a $500 shirt for $200 because you made everyone believe the brand was going bankrupt... Then you bought at the price you wanted... That's exactly what they do... They created the discount, bought in, and now they're laughing while you're complaining that "the market looks weird"...</p>
+    <p>That guy you follow on Instagram who posts trips every month and never seems to "work"? He operates right here... The afternoon before the game... At the inflated price... At the price the market gave away for free because everyone was scared... He's not scared... He has data...</p>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+    <div class="step-number">4</div>
+    <h3>They bring the price back to normal...</h3>
+    <p>After placing their money at the position they wanted, they push the price back down to where it was before: 1.30-1.50...</p>
+    <p>This happens in the following hours, the price keeps dropping, dropping, dropping... By the time the game finally starts, the closing price is way below what they paid...</p>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step">
+    <div class="step-number">5</div>
+    <h3>The profit is in the price, not the result...</h3>
+    <p>This is the part that changes everything...</p>
+    <p>They got in at 2.00 the afternoon before...<br>
+    At game time, the price is at 1.40...</p>
+    <p>That means: they bought something that's now worth 42% more... Before any goal... Before any play... Before the ball even rolls...</p>
+    <p>It's like buying a stock at $10 and it opens at $14.20 the next day... You're already winning before anything happens...</p>
+  </div>
+
+  <p>And here's the most important part:</p>
+
+  <p>The game can go either way... That doesn't change the fact that they got in at the right price... If they do this 100 times, always getting in at a better price than the market, the math guarantees profit in the long run... You don't need to hit every single one... You need a consistent edge...</p>
+
+  <div class="callout">
+    It's like a casino: the casino doesn't win every hand... But it has a statistical edge, and that's why it profits at the end of the month... This is the same thing, except the edge is YOURS...
+  </div>
+
+  <p>That's how you build real side income... Not with picks... Not with "gut feelings"... With price advantage captured before the game...</p>
+
+  <!-- PRICE TABLE -->
+  <h3>How the price moves (real example)...</h3>
+
+  <div class="table-scroll">
+  <table class="price-table">
+    <thead>
+      <tr>
+        <th>Timing</th>
+        <th>Price</th>
+        <th>What happens</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 day before</td>
+        <td>1.38</td>
+        <td>Favorite team, normal price...</td>
+      </tr>
+      <tr>
+        <td>12h before</td>
+        <td>1.65</td>
+        <td>Price starts climbing... <span class="tag tag-red">artificial pressure</span></td>
+      </tr>
+      <tr>
+        <td>6h before</td>
+        <td>2.00</td>
+        <td>Inflated price... <span class="tag tag-red">trap is set</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>5h before</td>
+        <td>2.00</td>
+        <td><span class="tag tag-green">SYNDICATE ENTERS HERE</span> (buys cheap)...</td>
+      </tr>
+      <tr>
+        <td>2h before</td>
+        <td>1.55</td>
+        <td>Price starts returning to normal...</td>
+      </tr>
+      <tr>
+        <td>Game time</td>
+        <td>1.40</td>
+        <td>Price closes at real value...</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>They got in at 2.00, the day before...<br>
+  At game time, the price is at 1.40...<br>
+  <strong>+42% edge... Before the ball even rolls...</strong></p>
+
+  <div class="sep"></div>
+
+  <p><strong>Get the play?</strong></p>
+
+  <p>What these guys have that's different isn't secret information... It's: they track where the money is going... They get in at the right time, at the right price... They do it consistently... And they operate before the game, not during...</p>
+
+  <p><strong>The question is: what if you could see that movement happening, hours before the game starts?</strong></p>
+</section>
+
+<!-- ═══════════ SECTION: 3 STRATEGIES ═══════════ -->
+<section>
+  <h2>The 3 Strategies the Big Players Use (And That SpyOddsUp Detects for You)...</h2>
+
+  <p>Every big bettor, from global syndicates to the guys flexing on Instagram, uses the same 3 strategies... And they all happen before the game...</p>
+
+  <p><strong>SpyOddsUp detects all 3 automatically:</strong></p>
+
+  <!-- STRATEGY 1 -->
+  <div class="strategy-card">
+    <h3>PRICE TRAP (Head Fake)...</h3>
+    <p>It's what I just explained... They push the price up on purpose so everyone panics... While everyone runs, they buy cheap...</p>
+    <p>In practice, it works like this:</p>
+    <p>Everyone in the group: "the price went up, something's wrong!" Total panic... You? Open SpyOddsUp, see the alert "TRAP DETECTED", and do the exact opposite... Get in at the high price the afternoon before... The next day, when the game starts, the price has already returned to normal... You bought at a discount... Everyone else paid more...</p>
+  </div>
+
+  <!-- STRATEGY 2 -->
+  <div class="strategy-card">
+    <h3>HIDDEN MONEY (Concealed Volume)...</h3>
+    <p>Big players don't drop millions at once, that would spook the market... They place it gradually, across multiple bookmakers at the same time, so nobody notices...</p>
+    <p>The price moves "slowly"... but when you add it all up, it's an avalanche of money in a single direction...</p>
+    <p>SpyOddsUp monitors ALL bookmakers simultaneously and identifies when volume is abnormal, with plenty of time for you to position yourself...</p>
+  </div>
+
+  <!-- STRATEGY 3 -->
+  <div class="strategy-card">
+    <h3>PRICE BREAK (Line Rupture)...</h3>
+    <p>When the money pressure gets too heavy, the price "breaks", drops sharply and fast... From 2.00 to 1.60 in minutes...</p>
+    <p>That's the moment most people realize something happened... But whoever waited already missed the good price...</p>
+    <p>SpyOddsUp detects this break before it happens, when there's still time to get in...</p>
+  </div>
+</section>
+
+<!-- ═══════════ SECTION: WHAT IT DOES ═══════════ -->
+<section>
+  <h2>OK, But What Does SpyOddsUp Actually Do?</h2>
+
+  <p>I'll simplify it as much as possible:</p>
+
+  <p><strong>SpyOddsUp watches the betting market 24 hours a day and alerts you when something unusual is happening, before the game...</strong></p>
+
+  <p>While you're looking at one game at a time, it's analyzing thousands of games simultaneously...<br>
+  While you're trying to "feel out" who's going to win, it's calculating where the money is going...</p>
+
+  <p>And when it detects something out of the ordinary...</p>
+
+  <div class="callout">
+    Your phone buzzes... Tuesday, 3pm... You look: "Alert: abnormal price, Premier League, price at 2.05, estimated edge of 31%, game tomorrow at 4:45pm"... You get in within 30 seconds... The next day, at game time, the price has already dropped to 1.55... Whoever got in after you paid more... Whoever didn't get in never even knew the opportunity existed...
+  </div>
+
+  <p>And it's not one alert a month... Every day there are games... Every game with money flowing has movement... Every movement is an opportunity... While you sleep, SpyOddsUp is monitoring the Premier League, La Liga, Serie A, Bundesliga, Champions League, hundreds of games at the same time... You don't need to search for opportunities... The opportunity finds you...</p>
+
+  <div class="sep"></div>
+
+  <p>While you're:</p>
+  <p>Watching sports talk shows on TV, listening to a commentator who's never bet a dollar in his life tell you who's going to win...<br>
+  Opening Telegram to read picks from a guy who calls himself "King of Greens" with a rented Lamborghini as his profile pic...<br>
+  Following an "expert" on Twitter who hits 3 and misses 7, but only posts the 3...</p>
+
+  <p><strong>The guys who actually make money are seeing, hours before the game:</strong></p>
+
+  <ul class="feature-list">
+    <li>WHERE the money is going...</li>
+    <li>WHICH side is getting pressure...</li>
+    <li>WHEN the price is about to break...</li>
+    <li>WHO is behind the movement...</li>
+  </ul>
+
+  <h3>What SpyOddsUp detects for you:</h3>
+
+  <ul class="feature-list">
+    <li>PRICE TRAP: When someone is inflating the price on purpose to fool the market...</li>
+    <li>HEAVY MONEY: When real money enters the market, not regular bettor money...</li>
+    <li>PRICE BREAK: When the price is about to plummet, and there's still time to get in...</li>
+    <li>UNUSUAL MOVEMENTS: Anything outside the normal pattern...</li>
+    <li>ALL BOOKMAKERS: Works with Bet365, Betano, Sportingbet and any other, SpyOddsUp monitors all of them...</li>
+    <li>BEFORE THE GAME: Everything happens pre-game... You position yourself in advance...</li>
+  </ul>
+
+  <p>It's not some watered-down version with delayed data... It's the same level of information the big players use... The same speed... The same data... The difference between you and the guys on the yacht is that they've been using this for 2 years... You're going to start today...</p>
+
+  <p>SpyOddsUp was developed by a team that has worked with some of these names... We can't say who... But if you watch the videos... you'll connect the dots...</p>
+
+  <div class="cta-wrap">
+    <a href="https://pay.hotmart.com/C104293322R?checkoutMode=10" class="cta-btn">I WANT THIS EDGE NOW</a>
+  </div>
+</section>
+
+<!-- ═══════════ SECTION: SIDE INCOME ═══════════ -->
+<section>
+  <h2>Side Income: Not a Promise... Just Simple Math...</h2>
+
+  <p>I'll be straight with you:</p>
+
+  <p>SpyOddsUp doesn't promise you'll get rich... Doesn't promise miracles... Doesn't promise every game will hit...</p>
+
+  <p>But it gives you something worth more than any pick:<br>
+  <strong>Price advantage... Before everyone else...</strong></p>
+
+  <p>And when you have a consistent price advantage, the money is a consequence...</p>
+
+  <p>Look at this real scenario:</p>
+
+  <p>Tuesday, 3pm... One alert... Game's not until tomorrow at 4:45pm... You put $100 at price 2.10 in 30 seconds from your phone, without even stopping what you were doing... The next day, when the game starts, the price has already closed at 1.65... The game plays out, it hits... $110 profit...</p>
+
+  <p>Your monthly SpyOddsUp subscription? $47...</p>
+
+  <p>You paid for the entire month with one entry you made the afternoon before, in traffic... And you still have 25 days of alerts left...</p>
+
+  <p>Two entries that hit? Profit...<br>
+  Three? Consistent side income...<br>
+  One month positioning in advance? You never want to go back to betting at game time, chasing a price that already dropped...</p>
+
+  <div class="sep"></div>
+
+  <p><strong>It's not about "get rich quick"...</strong></p>
+
+  <p>It's about stopping the bleeding to a system that profits from your lack of information...<br>
+  It's about starting to see what's happening in the market, hours before everyone else...</p>
+
+  <p>Money in your pocket changes how you walk... Changes how you talk... Changes how others look at you when you enter a room... It's not about flexing... It's about the confidence of someone who knows the month's already covered, and that shows from a mile away...</p>
+
+  <p>You know that Instagram profile that posts "another green" every day with a pretty screenshot? He's not analyzing game by game... He got the alert the day before, got in within 30 seconds, and the next day took the screenshot... The only difference between him and you is that he already subscribed and you're reading this page...</p>
+
+  <p>60 days from now, it'll be you sending the screenshot... It'll be your friend replying with clapping emojis and dying inside... It'll be someone DMing you asking "bro, how are you doing this?"... The table turns... And it turns fast...</p>
+</section>
+
+<!-- ═══════════ SECTION: QUESTION ═══════════ -->
+<section>
+  <h2>The Question You Should Be Asking Yourself...</h2>
+
+  <p>Do you really think Drake makes his money just from music?<br>
+  That McGregor sustains that lifestyle just from fighting?<br>
+  That Bilzerian built all of that just from inheritance?</p>
+
+  <p>Think about it:</p>
+
+  <p>If they have access to information most people don't... If they position themselves before games... If they use tools almost nobody knows about...</p>
+
+  <p><strong>Why wouldn't you have access too?</strong></p>
+</section>
+
+<!-- ═══════════ SECTION: WHAT IT'S NOT ═══════════ -->
+<section>
+  <h2>What SpyOddsUp is NOT (Read Before Continuing)...</h2>
+
+  <p>Before talking about plans, I need to be honest about what SpyOddsUp is not... Because if you're looking for any of these things, this isn't the place:</p>
+
+  <ul class="feature-list feature-list-x">
+    <li>It's not a picks group... No guru... No "good game for today"... Nobody tells you "bet here"...</li>
+    <li>It's not a bot that bets for you... It doesn't connect to your betting account... It doesn't do anything automatic... You're always in control...</li>
+  </ul>
+
+  <p>What it DOES:</p>
+
+  <ul class="feature-list">
+    <li>Shows you WHERE the big money is going, in real time, before the game...</li>
+    <li>Alerts you WHEN the price is abnormal, price trap, hidden money, price break...</li>
+    <li>LETS YOU decide, with data, not with Telegram picks...</li>
+  </ul>
+
+  <p><strong>You decide... Always... SpyOddsUp is the intelligence... You're the pilot...</strong></p>
+
+  <p>If that makes sense, keep going...</p>
+</section>
+
+<!-- ═══════════ SECTION: SUPPORT ═══════════ -->
+<section>
+  <h2>One Thing We Insist On...</h2>
+
+  <p>If you join and don't know where to start, relax...</p>
+
+  <p>We'll help you... It's not a chatbot... It's not an automated FAQ... It's real people... People who have bet before, who have lost money, who know what it's like to look at your statement and think "what am I doing wrong"...</p>
+
+  <p>We've been there... And that's why we built this...</p>
+
+  <p>And there's one more thing: when you subscribe to SpyOddsUp, you don't become a "customer"... You become part of a group that operates differently... That sees the market first... That doesn't depend on picks... That understands how the game really works, behind the scenes...</p>
+
+  <p><strong>When you get in, you switch sides... From someone who pays the system, to someone who uses the system in their favor... And you won't want to go back...</strong></p>
+</section>
+
+<!-- ═══════════ SECTION: PLANS ═══════════ -->
+<section>
+  <h2>The Plan...</h2>
+
+  <p>Contrary to what you might think, getting to this level doesn't cost an arm and a leg...</p>
+
+  <p>You know that pizza you order on Tuesday night for $15 and regret by Wednesday morning? That's the daily cost of the plan that can give you side income every month... The pizza becomes regret... SpyOddsUp becomes balance...</p>
+
+  <!-- PLAN -->
+  <div class="plan-card featured">
+    <div class="plan-name">SpyOddsUp Access</div>
+    <div class="plan-price">$47 <span>/month</span></div>
+    <div class="plan-tagline">Full access... Everything you need...</div>
+    <ul class="feature-list">
+      <li>Alerts before games, in real time...</li>
+      <li>Sound notification + email...</li>
+      <li>Dashboard to track your bets...</li>
+      <li>Filters to choose what interests you...</li>
+      <li>Charts showing your history...</li>
+      <li>Price edge meter (CLV)...</li>
+      <li>Export your data as spreadsheet or PDF...</li>
+    </ul>
+    <p><em>Once you start here, you'll never go back to betting in the dark...</em></p>
+    <div class="cta-wrap">
+      <a href="https://pay.hotmart.com/C104293322R?checkoutMode=10" class="cta-btn">GET MY ACCESS NOW</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SECTION: URGENCY ═══════════ -->
+<section>
+  <h2>Why Access May Close (And Might Not Come Back)...</h2>
+
+  <p>There's something important you need to know:</p>
+
+  <p><strong>SpyOddsUp is not an open website that accepts everyone...</strong></p>
+
+  <p>There are two reasons for that:</p>
+
+  <p><strong>Reason 1, Technical:</strong> The system processes millions of data points in real time... The more people using it at the same time, the heavier it gets... If it goes down, everyone loses... That's why there's a user limit...</p>
+
+  <p><strong>Reason 2, Strategic:</strong> If too many people start seeing the same movement at the same time... the movement disappears... The syndicates adapt... The window closes... That's why there will be only 500 spots... Not one more... When they fill up, the site shuts down and the system switches to running exclusively with encryption in Switzerland &mdash; where neither the bookmakers nor the syndicates will know we exist... If you've made it this far, consider yourself exclusive... Because this is going to disappear soon...</p>
+
+  <p>When the limit is reached:</p>
+  <p><strong>Access closes...</strong><br>
+  No warning... No waitlist... No "we'll let you know when it opens"...</p>
+
+  <p>Those who got in, got in... Those who missed out... keep betting without information...</p>
+
+  <p><strong>Right now there are spots... In 2 hours? In 10 minutes? No way to know...</strong></p>
+</section>
+
+<!-- ═══════════ SECTION: TWO OPTIONS ═══════════ -->
+<section>
+  <h2>You Have Two Options...</h2>
+
+  <div class="option-box bad">
+    <div class="option-label">Option 1</div>
+    <p>Close this page... Go back to Telegram... Wait for the daily pick... Bet at game time, at a price that already dropped... Lose... Open the betting statement and see red again... Someone in your family asks how much you lost this month... You lie... Again... Keep feeding the system that profits from your lack of information... Same routine as always...</p>
+  </div>
+
+  <div class="option-box good">
+    <div class="option-label">Option 2</div>
+    <p>Get in now... Start receiving alerts hours in advance... Position yourself at the right price before everyone else... Start building real side income... Switch sides... Join the group that actually understands how the market works...</p>
+  </div>
+
+  <p>30 days from now, when someone at a barbecue asks "so, how's the betting going?", you won't look away... You'll show the dashboard... You'll show you're in the green... You'll show the chart going up... And the guy who always made fun of you for betting? He'll shut up... Or he'll ask you for the link...</p>
+
+  <p><strong>The decision is simple...</strong><br>
+  But the time to decide is running out...</p>
+
+  <p>While you're "thinking about whether it's worth it", the guy who decided in 3 seconds already got his first alert, positioned before the game, and is screenshotting his profit... Overthinking is the favorite sport of losers...</p>
+
+  <div class="cta-wrap">
+    <a href="https://pay.hotmart.com/C104293322R?checkoutMode=10" class="cta-btn">I WANT MY ACCESS TO SPYODDSUP NOW</a>
+    <p class="cta-sub">Before it closes... Again...</p>
+  </div>
+</section>
+
+<!-- ═══════════ SECTION: FAQ ═══════════ -->
+<section>
+  <h2>Questions Everyone Asks...</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">Do I need to understand betting to use it?</div>
+    <div class="faq-a">No... If you can click a button and follow a simple instruction, that's enough... SpyOddsUp tells you where the opportunity is... You just decide whether to get in or not...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Is there a free trial?</div>
+    <div class="faq-a">No... A real edge tool doesn't come with a free sample... Those who want results make a decision... Those who want to "test" stay on Telegram...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How long before I start seeing results?</div>
+    <div class="faq-a">The first alert can arrive the same day... From there, every alert is an opportunity...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Can I cancel?</div>
+    <div class="faq-a">Yes... You have 7 days to decide... Within that period, cancel with no hassle and get your money back... And there's an important detail: if you leave, you lose your key... No coming back... There are only 500 spots and we're not opening more... The only way back in would be buying access from someone who already has it &mdash; and honestly, whoever's making money isn't going to sell...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Does it work for any sport?</div>
+    <div class="faq-a">It works for any market with money flowing... If there's money movement before the game, SpyOddsUp detects it...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Can I use it with my bookmaker?</div>
+    <div class="faq-a">Yes... SpyOddsUp isn't connected to any bookmaker... It monitors the market from the outside... You use the information with whichever bookmaker you prefer, Bet365, Betano, Sportingbet, 1xBet, any of them...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Are the alerts during the game or before?</div>
+    <div class="faq-a">Always before... That's the whole point... You position yourself in advance, hours before the game starts... When the ball rolls, you're already ahead...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Do celebrities actually use tools like this?</div>
+    <div class="faq-a">The videos show real situations where the market moved significantly before games... The celebrities shown are publicly known for betting on sports... Draw your own conclusions... We just show the data...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What if there are no spots left when I decide to join?</div>
+    <div class="faq-a">You don't get in... Simple as that... There are 500 spots and there won't be a next cycle... When it closes, the system gets locked with encryption and all external access gets cut... This is for security &mdash; any leak puts everyone at risk... So if you're reading this now and there are still spots available, this is your only chance... Once it's closed, it's done...</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Does SpyOddsUp guarantee I'll make money?</div>
+    <div class="faq-a">No... Nobody serious guarantees that... What we offer is information and price advantage, pre-game positioning, consistently at a better price than the market... The final result depends on how you use the alerts, how much you bet, and your discipline... The math works in volume: it's not about hitting every single one, it's about having the edge in your favor over time...</div>
+  </div>
+</section>
+
+</div><!-- /.container -->
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="container">
+    <p><strong>DISCLAIMER</strong> &mdash; Betting involves risks... SpyOddsUp is a market intelligence tool, not a guarantee of profit... Use responsibly... Past results do not guarantee future results... The celebrities shown in the videos do not officially endorse the product... Images are for illustrative purposes...</p>
+    <p>&copy; SpyOddsUp &mdash; The market doesn't wait... Why would you?</p>
+  </div>
+</footer>
+
+</body>
+</html>
